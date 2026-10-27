@@ -1,42 +1,34 @@
-/* ትእይንት ሁለት — ጫካው። ሴቲቱ በየቀኑ ስጋ ታመጣለች፤ አንበሳው ይታመናል፤ ጢሶቹን ትነቅላለች።
-   The lion is never shown: it is a growl, a shake of the leaves, and two amber lamps in the dark.
-   That is cheaper than a rig and truer to the tale — she never sees the whole animal either. */
+/* ትእይንት ሁለት — በጠቢቧ ቤት። ኤመቤት ተግባሩን ትሰጣለች፤ አስቴር ትጠይቃለች፤ ኤመቤት መልስ ትሰጣለች።
+   s04 Emebet "ሦስት የአንበሳ ጢስ አምጪልኝ" · s05 Aster "እንዴት ቀርቤ…" · s06 Emebet "በትዕግስት። ቀስ በቀስ…" */
 'use strict';
-const PRE2 = 1.2;
+const PRE2 = .9;
 
 function scene2(p, D) {
-  const cam = paperCam(p, 'bush');
-  const wife = womanPuppet(cam.stage, { coat: '#b8563f', stripe: '#f0d9a8', pants: '#7a3a2c', skin: '#e8bb92',
-    holds: { basket: BASKET } });
+  const cam = paperCam(p, 'hut');
+  cam.cut({ x: 800, y: 480, z: 1.06 }, 0).to({ x: 820, y: 500, z: 1.2 }, 2.2, 6.5);
+  const aster = asterPuppet(cam.stage, { coat: '#b8563f', stripe: '#f0d9a8', pants: '#7a3a2c', skin: '#e8bb92' });
+  const emebet = emebetPuppet(cam.stage, { coat: '#55604e', stripe: '#e8e0c8', pants: '#44403a', skin: '#d8a878',
+    holds: { staff: STAFF } });
 
-  const t6 = clipAt('scene2', PRE2, 's06');   // "በየቀኑ ስጋ ይዛ ወደ ጫካ ትሄድ ነበር"
-  const t7 = clipAt('scene2', PRE2, 's07');   // "ቀስ በቀስ አንበሳው አመነባት"
-  const t8 = clipAt('scene2', PRE2, 's08');   // "አትፍራ። እኔ ጓደኛህ ነኝ"
-  const t9 = clipAt('scene2', PRE2, 's09');   // "በአንድ ቀን ሶስት ጢሶችን አነቀለች"
-  const eyesAt = t7 + .35;
+  const t4 = clipAt('scene2', PRE2, 's04');
+  const t5 = clipAt('scene2', PRE2, 's05');
+  const t6 = clipAt('scene2', PRE2, 's06');
 
-  sfx('scene2', .2, 'crickets', .45);
-  sfx('scene2', .4, 'wind', .5);
-  sfx('scene2', eyesAt, 'growl', .9);
-  cam.shake(eyesAt, .7, 9);                   // the leaves answer the growl
-
-  // camera: wide while she walks, then a slow push towards the bush as she is trusted
-  cam.cut({ x: 800, y: 470, z: .98 }, 0).to({ x: 905, y: 545, z: 1.2 }, Math.max(.5, t8 - 1.6), 4.2);
-
-  // she walks in from the left on twos, whole steps, and stops short of the bush
-  const STEP = 2 / 3, walkEnd = t6 + .4, steps = Math.max(0, Math.floor((walkEnd - .3) / STEP)), far = spStep(steps * STEP).d;
+  sfx('scene2', .2, 'room', .45);
 
   stopClock(D, (q, f) => {
-    const w = spStep(Math.min(Math.floor(q * 6) / 6, steps * STEP));
-    const moving = q < steps * STEP;
     cam.apply(q, f);
-    cam.show('eyes', q >= eyesAt);
-    wife.pose({ x: 440 + .92 * (far - w.d), y: 800, s: 1, look: .7,
-      mouth: lips(q, 'scene2', PRE2, 's08'),
-      brow: q >= eyesAt ? -.6 : (q > t6 ? .2 : 0),
-      lean: q >= eyesAt ? -3 : 0,
-      legL: moving ? w.legL : 0, legR: moving ? w.legR : 0, bob: moving ? w.drop : 0,
-      armL: q >= t9 ? 26 : (q >= eyesAt ? 12 : 0),            // reaching for the whiskers
-      shut: blinking(q, [3.4, 8.9, 12.2]) }, f);
+    cam.show('cloth', false);
+    aster.pose({ x: 1055, y: 800, s: 1, look: -.55,
+      mouth: lips(q, 'scene2', PRE2, 's05'),
+      brow: q > t5 - .3 ? -.5 : .1,
+      lean: q > t5 - .3 && q < t6 ? -2.5 : 0,
+      armL: q > t5 - .3 && q < t6 ? 14 : 0,
+      shut: blinking(q, [3.1, 8.2]) }, f);
+    emebet.pose({ x: 640, y: 806, s: 1, look: .5,
+      mouth: lips(q, 'scene2', PRE2, 's04', 's06'),
+      brow: q > t6 ? .35 : .05,
+      armR: q > t6 ? 18 : 6,
+      shut: blinking(q, [2.4, 6.9]) }, f);
   });
 }

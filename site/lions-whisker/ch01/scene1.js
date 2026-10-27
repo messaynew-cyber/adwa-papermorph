@@ -1,36 +1,33 @@
-/* ትእይንት አንድ — ጎጆው ውስጥ፦ ሴቲቱ ቅሬታዋን ትናገራለች፣ አረጋዊው መፍትሔ ይሰጣል።
-   scene one: inside the hut. The wife complains; the elder gives her the impossible task.
+/* ትእይንት አንድ — ጎጆው። አስቴር ብቻዋ ትናገራለች፤ ከዚያ ወደ ጠቢቧ ለመሄድ ትነሳለች።
+   s01 narrator "…አስቴር… ትኖር ነበር" · s02 Aster "በመካከላችን ያለው ፍቅር ጠፍቷል" · s03 narrator "ወደ ጠቢቧ ኤመቤት ሄደች"
    One scene = one beat = a pure function of the beat clock q. */
 'use strict';
-const PRE1 = .8;                       // picture before the first word
+const PRE1 = .8;
 
 function scene1(p, D) {
   const cam = paperCam(p, 'hut');
-  cam.cut({ x: 800, y: 470, z: 1 }, 0).to({ x: 740, y: 500, z: 1.16 }, 1.4, 15);
-  const wife = womanPuppet(cam.stage, { coat: '#b8563f', stripe: '#f0d9a8', pants: '#7a3a2c', skin: '#e8bb92',
-    holds: { basket: BASKET } });
-  const elder = elderPuppet(cam.stage, { coat: '#5d6b4a', stripe: '#e8e0c8', pants: '#4a4436', skin: '#d8a878',
-    holds: { staff: STAFF } });
+  cam.cut({ x: 800, y: 470, z: 1 }, 0).to({ x: 760, y: 500, z: 1.18 }, 1.2, 11);
+  const aster = asterPuppet(cam.stage, { coat: '#b8563f', stripe: '#f0d9a8', pants: '#7a3a2c', skin: '#e8bb92' });
 
-  const t3 = clipAt('scene1', PRE1, 's03');   // "ቃሉ እንደ እሳት ያቃጥላል"
-  const t4 = clipAt('scene1', PRE1, 's04');   // "ሶስት የአንበሳ ጢስ አምጪልኝ"
-  const t5 = clipAt('scene1', PRE1, 's05');   // "የአንበሳ ጢስ? እንዴት?"
+  const t2 = clipAt('scene1', PRE1, 's02');   // "በመካከላችን ያለው ፍቅር ጠፍቷል"
+  const t3 = clipAt('scene1', PRE1, 's03');   // "ስለዚህ ወደ ጠቢቧ አሮጊት ኤመቤት ሄደች"
 
   sfx('scene1', .25, 'room', .5);
-  sfx('scene1', .7, 'wind', .45);            // the wind outside, under the whole scene
+  sfx('scene1', .8, 'wind', .4);
+
+  // she leaves on her own feet, whole steps, once the narrator says she went
+  const STEP = 2 / 3, stepFrom = t3 + .55, steps = 4, far = spStep(steps * STEP).d;
 
   stopClock(D, (q, f) => {
+    const w = spStep(Math.max(0, Math.min(Math.floor((q - stepFrom) * 6) / 6, steps * STEP)));
+    const walking = q > stepFrom && q < stepFrom + steps * STEP;
     cam.apply(q, f);
     cam.show('cloth', false);
-    wife.pose({ x: 545, y: 800, s: 1, look: .55,
-      mouth: lips(q, 'scene1', PRE1, 's03', 's05'),
-      brow: q > t3 ? -.55 : 0,
-      lean: q > t3 ? -2.5 : 0,
-      shut: blinking(q, [2.2, 9.6, 15.1]) }, f);
-    elder.pose({ x: 905, y: 806, s: 1.03, look: -.5,
-      mouth: lips(q, 'scene1', PRE1, 's04'),
-      brow: q > t4 ? .35 : 0,
-      armR: q > t4 ? 16 : 0,
-      shut: blinking(q, [4.3, 12.4]) }, f);
+    aster.pose({ x: 620 + .95 * (far - w.d), y: 800, s: 1, look: q < t3 ? -.15 : .7,
+      mouth: lips(q, 'scene1', PRE1, 's02'),
+      brow: q > t2 - .2 && q < t3 ? -.5 : .05,
+      lean: q > t2 - .2 && q < t3 ? -2 : 0,
+      legL: walking ? w.legL : 0, legR: walking ? w.legR : 0, bob: walking ? w.drop : 0,
+      shut: blinking(q, [2.9, 7.8]) }, f);
   });
 }
