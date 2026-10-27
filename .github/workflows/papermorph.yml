@@ -1,0 +1,147 @@
+name: papermorph
+
+# Authoring happens on the phone. This workflow is the half that needs a real
+# browser and a real ffmpeg: page-error checks in Chromium + Firefox, review
+# screenshots, and MP4/SRT export. Nothing here touches the Oracle VPS.
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'smoke (scaffold+tts+lint+check) | lint | check | shot | export'
+        type: choice
+        options: [smoke, lint, check, shot, export]
+        default: check
+      book:
+        description: 'book slug (site/<book>/)'
+        default: smoke
+      chapter:
+        description: 'chapter id'
+        default: ch01
+      lang:
+        description: 'language code (en, am, ...)'
+        default: en
+      height:
+        description: 'export height: 1080 landscape, 720 upright'
+        default: '1080'
+
+concurrency:
+  group: papermorph-${{ inputs.book }}
+  cancel-in-progress: false
+
+env:
+  PYTHONUNBUFFERED: '1'
+  BOOK: ${{ inputs.book }}
+  CH: ${{ inputs.chapter }}
+  LANG_CODE: ${{ inputs.lang }}
+  TASK: ${{ inputs.task }}
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: System deps (ffmpeg, ffprobe)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          ffmpeg -version | head -1
+          ffprobe -version | head -1
+
+      - name: Playwright + helper python packages
+        run: |
+          python -m pip install -q --upgrade pip
+          pip install -q playwright pillow numpy
+          python -m playwright install --with-deps chromium firefox
+
+      - name: Scaffold the book if it does not exist yet
+        run: |
+          if [ ! -d "site/$BOOK" ]; then
+            echo "::group::new_book.py $BOOK"
+            python3 skill/scripts/new_book.py lesson "$BOOK"
+            echo "::endgroup::"
+          else
+            echo "site/$BOOK already in the tree"
+          fi
+          python3 skill/scripts/engine.py "site/$BOOK"
+
+      - name: Narrate (edge-tts) if the chapter has no timings yet
+        run: |
+          OUT="site/$BOOK/$CH/audio/$LANG_CODE"
+          NAR="content/$BOOK/$CH/narration.$LANG_CODE.json"
+          if [ -f "$OUT/timings.js" ] && [ -f "$OUT/intro.mp3" ]; then
+            echo "audio already present in $OUT"
+          else
+            test -f "$NAR" || { echo "::error::missing $NAR"; exit 1; }
+            python3 skill/scripts/tts.py "$NAR" "$OUT"
+          fi
+
+      - name: Serve the site
+        run: |
+          nohup python3 skill/scripts/serve.py 8765 site > serve.log 2>&1 &
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:8765/$BOOK/") || true
+            [ "$code" = "200" ] && { echo "serving $BOOK on :8765"; break; }
+            sleep 1
+          done
+          curl -s -o /dev/null -w 'http=%{http_code}\n' "http://localhost:8765/$BOOK/"
+
+      - name: Task — lint (static, no browser)
+        if: inputs.task == 'lint' || inputs.task == 'smoke'
+        working-directory: .
+        run: python3 skill/scripts/lint.py "site/$BOOK"
+
+      - name: Task — check (page errors, console, beat lengths)
+        if: inputs.task == 'check' || inputs.task == 'smoke'
+        working-directory: skill/scripts
+        run: |
+          python3 check.py "$CH" \
+            --url "http://localhost:8765/$BOOK/" \
+            --browsers chromium,firefox
+
+      - name: Task — shot (review screenshots + contact sheets)
+        if: inputs.task == 'shot'
+        working-directory: skill/scripts
+        run: |
+          mkdir -p "../../books/$BOOK/review/shots"
+          python3 shot.py "$CH" \
+            --url "http://localhost:8765/$BOOK/" \
+            --out "../../books/$BOOK/review/shots" \
+            --moments mid
+
+      - name: Task — export (MP4 + SRT)
+        if: inputs.task == 'export'
+        working-directory: skill/scripts
+        run: |
+          mkdir -p "../../books/$BOOK/review/video"
+          python3 export.py "$CH" \
+            --url "http://localhost:8765/$BOOK/" \
+            --out "../../books/$BOOK/review/video" \
+            --height "${{ inputs.height }}"
+
+      - name: Collect output
+        if: always()
+        run: |
+          echo "=== tree ==="
+          find "site/$BOOK" -maxdepth 2 -type f | sort | head -50
+          du -sh "site/$BOOK" || true
+          echo "=== serve.log ==="
+          tail -20 serve.log || true
+
+      - name: Upload review artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: papermorph-${{ inputs.book }}-${{ inputs.task }}-${{ github.run_number }}
+          path: |
+            books/${{ inputs.book }}/review/**
+            serve.log
+            site/${{ inputs.book }}/**/audio/**
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,0 +1,376 @@
+{
+ "intro": {
+  "key": "c751b4ab23ec2e7232ed78ec819aa65c7c5bdbe1",
+  "dur": 3.912,
+  "words": [
+   [
+    0.104166,
+    "Chapter"
+   ],
+   [
+    0.45575,
+    "one"
+   ],
+   [
+    1.119791,
+    "One"
+   ],
+   [
+    1.315125,
+    "sentence"
+   ],
+   [
+    1.70575,
+    "that"
+   ],
+   [
+    1.862,
+    "says"
+   ],
+   [
+    2.161458,
+    "what"
+   ],
+   [
+    2.33075,
+    "this"
+   ],
+   [
+    2.513041,
+    "chapter"
+   ],
+   [
+    2.981791,
+    "is"
+   ],
+   [
+    3.112,
+    "for"
+   ]
+  ],
+  "marks": {
+   "sub": 1.12
+  },
+  "cues": [
+   [
+    0.104,
+    "Chapter one."
+   ],
+   [
+    1.12,
+    "One sentence that says what this chapter is for."
+   ]
+  ]
+ },
+ "idea": {
+  "key": "c49b647fbf86b072f4faf8542dac04aa8c6bd24f",
+  "dur": 6.192,
+  "words": [
+   [
+    0.104166,
+    "Say"
+   ],
+   [
+    0.286458,
+    "the"
+   ],
+   [
+    0.416666,
+    "idea"
+   ],
+   [
+    1.054708,
+    "while"
+   ],
+   [
+    1.210958,
+    "the"
+   ],
+   [
+    1.315125,
+    "picture"
+   ],
+   [
+    1.70575,
+    "shows"
+   ],
+   [
+    2.057291,
+    "it"
+   ],
+   [
+    2.669291,
+    "The"
+   ],
+   [
+    2.734375,
+    "mark"
+   ],
+   [
+    3.020833,
+    "goes"
+   ],
+   [
+    3.294291,
+    "right"
+   ],
+   [
+    3.58075,
+    "before"
+   ],
+   [
+    4.010416,
+    "the"
+   ],
+   [
+    4.114583,
+    "word"
+   ],
+   [
+    4.427083,
+    "the"
+   ],
+   [
+    4.53125,
+    "animation"
+   ],
+   [
+    5.14325,
+    "waits"
+   ],
+   [
+    5.416666,
+    "for"
+   ]
+  ],
+  "marks": {
+   "note": 2.669
+  },
+  "cues": [
+   [
+    0.104,
+    "Say the idea while the picture shows it."
+   ],
+   [
+    2.669,
+    "The mark goes right before the word the animation waits for."
+   ]
+  ]
+ },
+ "q1": {
+  "key": "9f1311476e438585907f751c8ba82b3ea6106e7a",
+  "dur": 3.048,
+  "words": [
+   [
+    0.117208,
+    "Quick"
+   ],
+   [
+    0.286458,
+    "check"
+   ],
+   [
+    1.09375,
+    "A"
+   ],
+   [
+    1.158875,
+    "few"
+   ],
+   [
+    1.367208,
+    "words"
+   ],
+   [
+    1.627625,
+    "that"
+   ],
+   [
+    1.770833,
+    "name"
+   ],
+   [
+    2.005208,
+    "the"
+   ],
+   [
+    2.096375,
+    "task"
+   ]
+  ],
+  "marks": {},
+  "cues": [
+   [
+    0.117,
+    "Quick check."
+   ],
+   [
+    1.094,
+    "A few words that name the task."
+   ]
+  ]
+ },
+ "wrap": {
+  "key": "d57a88593ec7d5dc4fcaebb01c7eb99917665e5a",
+  "dur": 5.28,
+  "words": [
+   [
+    0.117208,
+    "To"
+   ],
+   [
+    0.182291,
+    "sum"
+   ],
+   [
+    0.390625,
+    "up"
+   ],
+   [
+    1.054708,
+    "First"
+   ],
+   [
+    1.263041,
+    "takeaway"
+   ],
+   [
+    2.1745,
+    "Second"
+   ],
+   [
+    2.487,
+    "takeaway"
+   ],
+   [
+    3.398458,
+    "Now"
+   ],
+   [
+    3.567708,
+    "try"
+   ],
+   [
+    3.789083,
+    "the"
+   ],
+   [
+    3.89325,
+    "chapter"
+   ],
+   [
+    4.270833,
+    "practice"
+   ]
+  ],
+  "marks": {
+   "w1": 1.055,
+   "w2": 2.175,
+   "end": 3.398
+  },
+  "cues": [
+   [
+    0.117,
+    "To sum up."
+   ],
+   [
+    1.055,
+    "First takeaway."
+   ],
+   [
+    2.175,
+    "Second takeaway."
+   ],
+   [
+    3.398,
+    "Now try the chapter practice."
+   ]
+  ]
+ },
+ "final1": {
+  "key": "68e270506ec06da9c5768a225972eb8c649457dd",
+  "dur": 2.592,
+  "words": [
+   [
+    0.104166,
+    "Chapter"
+   ],
+   [
+    0.403666,
+    "practice"
+   ],
+   [
+    1.445333,
+    "Name"
+   ],
+   [
+    1.614583,
+    "the"
+   ],
+   [
+    1.70575,
+    "task"
+   ]
+  ],
+  "marks": {},
+  "cues": [
+   [
+    0.104,
+    "Chapter practice."
+   ],
+   [
+    1.445,
+    "Name the task."
+   ]
+  ]
+ },
+ "finish": {
+  "key": "c783608a511ff2bbc2456305ba7206b37831439c",
+  "dur": 2.64,
+  "words": [
+   [
+    0.104166,
+    "Well"
+   ],
+   [
+    0.247416,
+    "done"
+   ],
+   [
+    1.028666,
+    "That's"
+   ],
+   [
+    1.223958,
+    "the"
+   ],
+   [
+    1.341166,
+    "end"
+   ],
+   [
+    1.510416,
+    "of"
+   ],
+   [
+    1.588541,
+    "chapter"
+   ],
+   [
+    2.03125,
+    "one"
+   ]
+  ],
+  "marks": {},
+  "cues": [
+   [
+    0.104,
+    "Well done."
+   ],
+   [
+    1.029,
+    "That's the end of chapter one."
+   ]
+  ]
+ }
+}

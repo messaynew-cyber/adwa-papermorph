@@ -1,0 +1,15 @@
+# source PDFs and extracted pages never enter the repo
+*.pdf
+books/*/pages/
+books/*/review/
+books/*/art/*.psd
+
+# python
+__pycache__/
+*.pyc
+.venv/
+uv.lock
+
+# editors / os
+.DS_Store
+*.swp
