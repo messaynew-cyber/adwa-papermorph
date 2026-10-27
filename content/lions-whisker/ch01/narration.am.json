@@ -3,24 +3,19 @@
   "voice": "am-ET-AmehaNeural",
   "rate": "-6%",
   "voices": {
-    "narrator": { "voice": "am-ET-AmehaNeural", "rate": "-6%", "pitch": "+0Hz" },
-    "wife": { "voice": "am-ET-MekdesNeural", "rate": "-2%", "pitch": "+0Hz" },
-    "elder": { "voice": "am-ET-AmehaNeural", "rate": "-14%", "pitch": "-12Hz" }
+    "narrator": { "voice": "am-ET-AmehaNeural", "rate": "-6%" },
+    "aster": { "voice": "am-ET-MekdesNeural", "rate": "-2%" },
+    "emebet": { "voice": "am-ET-MekdesNeural", "rate": "-12%", "pitch": "-25Hz" }
   },
   "beats": {
-    "s01": { "speaker": "narrator", "text": "በአንዲት መንደር አንዲት ሴት ከባለቤቷ ጋር ትኖር ነበር።" },
-    "s02": { "speaker": "narrator", "text": "ባለቤቷ ግን በቁጣ ይናገር ነበር።" },
-    "s03": { "speaker": "wife", "text": "ቃሉ [[burns]]እንደ እሳት ያቃጥላል።" },
-    "s04": { "speaker": "elder", "text": "[[three]]ሶስት የአንበሳ ጢስ አምጪልኝ።" },
-    "s05": { "speaker": "wife", "text": "የአንበሳ ጢስ? [[how]]እንዴት?" },
-
-    "s06": { "speaker": "narrator", "text": "ሴቲቱ [[daily]]በየቀኑ ስጋ ይዛ ወደ ጫካ ትሄድ ነበር።" },
-    "s07": { "speaker": "narrator", "text": "ቀስ በቀስ [[trust]]አንበሳው አመነባት።" },
-    "s08": { "speaker": "wife", "text": "አትፍራ። [[friend]]እኔ ጓደኛህ ነኝ።" },
-    "s09": { "speaker": "narrator", "text": "በአንድ ቀን [[pluck]]ሶስት ጢሶችን አነቀለች።" },
-
-    "s10": { "speaker": "elder", "text": "[[tame]]አንበሳን በትዕግስት አስተካከልሽው።" },
-    "s11": { "speaker": "elder", "text": "ባልሽ [[not]]አንበሳ አይደለም።" },
-    "s12": { "speaker": "narrator", "text": "ትዕግስት [[force]]ከኃይል ይበልጣል።" }
+    "s01": { "speaker": "narrator", "text": "በአንድ ወቅት አስቴር የምትባል ሴት ከባለቤቷ ዳዊት ጋር በአንድ ቤት ትኖር ነበር።" },
+    "s02": { "speaker": "aster", "text": "በመካከላችን ያለው ፍቅር ጠፍቷል።" },
+    "s03": { "speaker": "narrator", "text": "ስለዚህ ወደ ጠቢቧ አሮጊት ኤመቤት ሄደች።" },
+    "s04": { "speaker": "emebet", "text": "የአንበሳ ጢስ ሦስት ቁራጭ አምጪልኝ።" },
+    "s05": { "speaker": "aster", "text": "አንበሳ እንዴት ቀርቤ ጢሱን እወስዳለሁ?" },
+    "s06": { "speaker": "emebet", "text": "በትዕግስት። ቀስ በቀስ ትቀርቢዋለሽ።" },
+    "s07": { "speaker": "narrator", "text": "በየቀኑ ስጋ ይዛ ወደ ጫካው ሄደች። አንበሳውም ቀስ በቀስ ተማመናት።" },
+    "s08": { "speaker": "narrator", "text": "ከሳምንታት በኋላ ሦስቱን ጢሶች ወሰደች።" },
+    "s09": { "speaker": "emebet", "text": "አንበሳን በትዕግስት አርገሽው እንደሆነ፣ ባለቤትሽንም በዚህ ትዕግስት ታሸንፊያለሽ።" }
   }
 }
