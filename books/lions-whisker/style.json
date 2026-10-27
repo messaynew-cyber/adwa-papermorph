@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "tier": "picture",
+  "book": { "title": "የአንበሳው ጢስ", "slug": "lions-whisker", "language": "am", "readers": "everyone, all ages", "pilot": "ch01" },
+  "words": [
+    "An Ethiopian folk tale, retold in Amharic: a wife is told to bring three whiskers from a living lion.",
+    "Look: paper puppets, sets drawn in code — no painted art, no image budget."
+  ],
+  "look": "Paper puppets in front of sets drawn in code: mud-plaster hut with one window on the evening, and a bush at dusk. The lion is never seen — a growl, a shake of the leaves, two amber lamps.",
+  "voice": {
+    "engine": "edge",
+    "narrator": { "voice": "am-ET-AmehaNeural", "rate": "-6%" },
+    "cast": {
+      "wife": { "voice": "am-ET-MekdesNeural", "rate": "-2%" },
+      "elder": { "voice": "am-ET-AmehaNeural", "rate": "-14%", "pitch": "-12Hz" }
+    }
+  },
+  "illustration": {
+    "sets": "drawn in code (books/lions-whisker/art/sets.js), baked to bitmaps",
+    "budget": "zero — no image model",
+    "cast": [
+      { "name": "wife", "look": "cream netela with a red tibeb band, flat basket at the hip", "file": "site/lions-whisker/lib/cast2.js" },
+      { "name": "elder", "look": "stooped, white beard, olive coat, a staff", "file": "site/lions-whisker/lib/cast2.js" }
+    ]
+  },
+  "engine": { "source": "DozenTwelve/Papermorph", "ref": "engine-v2.7" },
+  "models": { "script": "deepseek-flash", "kit": "deepseek-flash", "scenes": "deepseek-flash", "sound": "deepseek-flash", "director": "deepseek-flash", "reviewers": "deepseek-flash" },
+  "approved": []
+}

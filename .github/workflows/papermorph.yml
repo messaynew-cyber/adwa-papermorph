@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: 'smoke (scaffold+tts+lint+check) | lint | check | shot | export'
+        description: 'bake | check | shot | export | lint | smoke'
         type: choice
-        options: [smoke, lint, check, shot, export]
+        options: [bake, check, shot, export, lint, smoke]
         default: check
       book:
         description: 'book slug (site/<book>/)'
@@ -40,6 +40,8 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -92,8 +94,28 @@ jobs:
           done
           curl -s -o /dev/null -w 'http=%{http_code}\n' "http://localhost:8765/$BOOK/"
 
+      - name: Task — bake (SVG sets and puppet pieces to bitmaps)
+        if: inputs.task == 'bake'
+        run: |
+          python3 skill/scripts/bake_sets.py "books/$BOOK/art/sets.js" "site/$BOOK"
+          python3 skill/scripts/bake_puppets.py "site/$BOOK" --url "http://localhost:8765/$BOOK/"
+
+      - name: Commit the baked bitmaps
+        if: inputs.task == 'bake' && success()
+        run: |
+          git config user.name "adwa-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A "site/$BOOK/img" "books/$BOOK"
+          if git diff --cached --quiet; then
+            echo "nothing to commit — bitmaps already current"
+          else
+            git commit -m "bake: $BOOK (run ${{ github.run_number }}) [skip ci]"
+            git push
+            echo "baked bitmaps committed"
+          fi
+
       - name: Task — lint (static, no browser)
-        if: inputs.task == 'lint' || inputs.task == 'smoke'
+        if: inputs.task == 'lint' || inputs.task == 'smoke' || inputs.task == 'bake'
         working-directory: .
         run: python3 skill/scripts/lint.py "site/$BOOK"
 
