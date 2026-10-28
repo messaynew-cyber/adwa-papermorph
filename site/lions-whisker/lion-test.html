@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>lion rig — probe</title>
+<link rel="stylesheet" href="lib/engine.css">
+</head>
+<body>
+<!-- A rig test page, not a book chapter: no beats, no clock. It draws the lion at a fixed set of
+     poses so `probe.py` can screenshot it and a human can judge the drawing. -->
+<script src="lib/engine.js"></script>
+<script src="lib/paper.js"></script>
+<script src="lib/lion.js"></script>
+<script>
+'use strict';
+// four tellings of the same puppet: resting, mouth open mid-roar, blinking, turned away
+const POSES = [
+  { jaw: .0, look: .2, tilt: 0, sway: .2 },
+  { jaw: 1, look: .55, tilt: -6, sway: -.3 },
+  { jaw: .35, look: -.4, tilt: 4, shut: true, sway: .6 },
+  { jaw: .15, look: 1, tilt: -12, face: -1, sway: -.6 },
+];
+const stage = document.getElementById('stage');
+paperWarm(g => {
+  POSES.forEach((p, i) => {
+    const l = lionPuppet(stage, {});
+    l.pose({ x: 300 + (i % 2) * 760, y: 620 + Math.floor(i / 2) * 340, s: .62, ...p }, 12 + i * 7);
+  });
+});
+</script>
+</body>
+</html>

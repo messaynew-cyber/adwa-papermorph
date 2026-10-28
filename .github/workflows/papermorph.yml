@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: 'bake | check | shot | export | lint | smoke'
+        description: 'bake | check | shot | export | lint | smoke | probe'
         type: choice
-        options: [bake, check, shot, export, lint, smoke]
+        options: [bake, check, shot, export, lint, smoke, probe]
         default: check
       book:
         description: 'book slug (site/<book>/)'
@@ -24,6 +24,9 @@ on:
       height:
         description: 'export height: 1080 landscape, 720 upright'
         default: '1080'
+      probe_path:
+        description: 'probe: page under the server root to screenshot'
+        default: 'lions-whisker/lion-test.html'
 
 concurrency:
   group: papermorph-${{ inputs.book }}
@@ -126,6 +129,13 @@ jobs:
           python3 check.py "$CH" \
             --url "http://localhost:8765/$BOOK/" \
             --browsers chromium,firefox
+
+      - name: Task — probe (screenshot one page for art review)
+        if: inputs.task == 'probe'
+        run: |
+          mkdir -p "books/$BOOK/review/probe"
+          PYTHONPATH=skill/scripts python3 tools/probe.py "${{ inputs.probe_path }}" \
+            --out "books/$BOOK/review/probe/$(basename '${{ inputs.probe_path }}' .html).png"
 
       - name: Task — shot (review screenshots + contact sheets)
         if: inputs.task == 'shot'
