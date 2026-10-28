@@ -69,11 +69,10 @@ function lionPuppet(parent, {
   /* ---- jaw: hinged at the back of the cheek; the dark interior gives the teeth a ground ---- */
   const jawSvg = `<g data-p="jaw">
     <g filter="url(#paper)">
-      <path d="M4,4 q34,26 82,14 q14,-4 12,8 q-2,12 -20,14 q-52,6 -82,-14 z" fill="${coat}"/>
-      <path d="M8,8 q34,22 78,12 q8,6 -4,10 q-44,8 -76,-10 z" fill="#8c2f2a" opacity=".85"/>
+      <path d="M4,4 q26,20 60,12 q12,-3 10,7 q-2,11 -18,12 q-44,5 -62,-12 z" fill="${coat}"/>
+      <path d="M8,8 q28,18 56,11 q8,5 -3,9 q-34,7 -55,-9 z" fill="#8c2f2a" opacity=".85"/>
       <path d="M18,10 q30,16 62,10" stroke="${ink}" stroke-width="2" fill="none" opacity=".3"/>
-      ${[26, 40, 54, 68].map((x, i) => `<path d="M${x},${12 - i} l4,10 l5,-9 z" fill="#fff8e6"/>`).join('')}
-      <path d="M74,18 l6,8 l5,-9 z" fill="#fff8e6" opacity=".8"/>
+      <g data-p="teeth">${[44, 56, 68].map((x, i) => `<path d="M${x},${10 - i * .6} l2.4,5.6 l3,-5 z" fill="#fff8e6"/>`).join('')}</g>
     </g></g>`;
 
   /* ---- legs: thick, with a bend; near pair darker than far pair ---- */
@@ -131,6 +130,7 @@ function lionPuppet(parent, {
       tf(P.headWrap, `translate(${96 + o.look * 9},${-186}) rotate(${o.tilt},-30,10)`);
       tf(P.jaw, `translate(0,${(o.jaw * 3).toFixed(1)}) rotate(${(o.jaw * 17).toFixed(1)},4,4)`);
       vis(P.lid, o.shut);
+      vis(P.teeth, o.jaw > .12);
       tf(P.pupil, `translate(${o.look * 3.4},${o.shut ? 1 : 0})`);
       tf(P.tailWrap, `rotate(${(o.sway * 7).toFixed(1)},-118,-142)`);
       tf(P.tuft, `rotate(${(o.sway * 16).toFixed(1)},-162,-206)`);
