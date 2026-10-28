@@ -2,7 +2,7 @@
 # Dispatch the papermorph workflow. Reads GITHUB_TOKEN from the environment or
 # from ~/.openclaw/.env. Prints the run number — never polls it.
 #
-#   ./run.sh <task> <book> [chapter] [lang] [height]
+#   ./run.sh <task> <book> [chapter] [lang] [height] [probe_path]
 #   ./run.sh check smoke ch01 en
 set -euo pipefail
 
@@ -14,6 +14,7 @@ BOOK="${2:?book slug}"
 CH="${3:-ch01}"
 LANG_C="${4:-en}"
 HEIGHT="${5:-1080}"
+PROBE="${6:-lions-whisker/lion-test.html}"
 
 if [ -z "${GITHUB_TOKEN:-}" ]; then
   GITHUB_TOKEN=$(grep -oE 'ghp_[A-Za-z0-9]{20,}' "$HOME/.openclaw/.env" | head -1)
@@ -24,7 +25,7 @@ curl -s -X POST \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
   -H "Accept: application/vnd.github+json" \
   "https://api.github.com/repos/$REPO/actions/workflows/$WF/dispatches" \
-  -d "{\"ref\":\"main\",\"inputs\":{\"task\":\"$TASK\",\"book\":\"$BOOK\",\"chapter\":\"$CH\",\"lang\":\"$LANG_C\",\"height\":\"$HEIGHT\"}}" \
+  -d "{\"ref\":\"main\",\"inputs\":{\"task\":\"$TASK\",\"book\":\"$BOOK\",\"chapter\":\"$CH\",\"lang\":\"$LANG_C\",\"height\":\"$HEIGHT\",\"probe_path\":\"$PROBE\"}}" \
   -w 'http=%{http_code}\n'
 
 sleep 6
