@@ -33,7 +33,7 @@ function lionPuppet(parent, {
   const ring = (n, r0, r1, base, spread) => Array.from({ length: n }, (_, i) => {
     const t = i / (n - 1), a = (-spread / 2 + spread * t) * Math.PI / 180;
     const r = r0 + (r1 - r0) * (0.55 + 0.45 * Math.sin(i * 2.1)), cx = Math.cos(a) * r, cy = Math.sin(a) * r;
-    return tuft(a, r, 26 + (i % 3) * 5, 34 + (i % 4) * 6, cx, cy, i % 2 ? base : maneLit, (a * 180 / Math.PI) + 90);
+    return tuft(a, r, 30 + (i % 3) * 7, 30 + (i % 4) * 7, cx, cy, i % 2 ? base : maneLit, (a * 180 / Math.PI) + (i % 2 ? 90 : 62));
   }).join('');
   const maneSvg = `<g data-p="mane"><g filter="url(#paperBig)">
       ${ring(11, 74, 96, mane, 250)}
@@ -58,14 +58,12 @@ function lionPuppet(parent, {
       <path d="M-16,-30 q-22,10 -26,34 q26,10 44,-6 q-12,-14 -6,-30 z" fill="${coat}"/>
       <path d="M-38,0 q-8,10 -2,18 q10,2 16,-8 z" fill="${coat}"/>
     </g>
-    <g data-p="eyeW"><ellipse cx="36" cy="-50" rx="13" ry="10" fill="#fff8e6"/></g>
-    <g data-p="pupil"><ellipse cx="39" cy="-50" rx="5.4" ry="7.4" fill="${eye}"/><ellipse cx="40.4" cy="-50" rx="2.2" ry="3.4" fill="${ink}"/></g>
+    <g data-p="eyeW"><ellipse cx="36" cy="-50" rx="10.5" ry="6.6" fill="#f6e7c4"/></g>
+    <g data-p="pupil"><ellipse cx="38" cy="-50" rx="3.4" ry="5" fill="${eye}"/><ellipse cx="38.6" cy="-50" rx="1.5" ry="4.2" fill="${ink}"/></g>
     <g data-p="lid"><rect x="21" y="-66" width="30" height="18" fill="${coat}"/>
-      <path d="M22,-50 q14,7 28,0" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" fill="none"/></g>
+      <path d="M26,-50 q10,5 21,0" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" fill="none"/></g>
     <g data-p="fangs"><g filter="url(#paper)">
       <path d="M56,-4 l3,11 l4,-10 z" fill="#fff8e6"/><path d="M72,-6 l3,12 l4,-11 z" fill="#fff8e6"/></g></g>
-    <g data-p="whisk"><g filter="url(#paper)">
-      <path d="M78,-16 l34,-10 M80,-9 l36,0 M76,-24 l30,-18" stroke="#f7efdc" stroke-width="1.5" fill="none" opacity=".8"/></g></g>
   </g>`;
 
   /* ---- jaw: hinged at the back of the cheek; the dark interior gives the teeth a ground ---- */

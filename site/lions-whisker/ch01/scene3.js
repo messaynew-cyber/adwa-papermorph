@@ -23,9 +23,10 @@ function scene3(p, D) {
   sfx('scene3', .4, 'wind', .5);
   sfx('scene3', growlAt, 'growl', .85);
   cam.shake(growlAt, .7, 8);
+  cam.show('eyes', false);              // the lion is on screen now; the disembodied eyes only stole focus
 
   // wide while she walks in, then a slow push to her hand as the whiskers come away
-  cam.cut({ x: 800, y: 470, z: .98 }, 0).to({ x: 800, y: 545, z: 1.24 }, Math.max(.5, t8 - 1.4), 4.5);
+  cam.cut({ x: 830, y: 520, z: 1.06 }, 0).to({ x: 860, y: 600, z: 1.42 }, Math.max(.5, t8 - 1.4), 4.5);
 
   const STEP = 2 / 3, walkEnd = t7 + .5, steps = Math.max(0, Math.floor((walkEnd - .4) / STEP)), far = spStep(steps * STEP).d;
 
@@ -38,16 +39,16 @@ function scene3(p, D) {
     const breathe = Math.sin(q * 1.9) * 2.2;                       // it is alive even when nothing happens
     const settled = span(q, trustAt, trustAt + 1.6);             // 0 wary → 1 settled
     lion.pose({
-      x: 1235 - 55 * settled,                                      // it comes a little closer as trust grows
-      y: 812, s: 1.02, face: -1,                                   // in profile, facing her
+      x: 1075 - 40 * settled,                                      // it comes a little closer as trust grows
+      y: 818, s: 1.06, face: -1,                                   // in profile, facing her
       bob: breathe, sway: Math.sin(q * .7) * .8,
       tilt: q >= growlAt ? -8 + 10 * settled : 6 - 4 * settled,    // head down, up on the growl, down again
       jaw: q >= growlAt && q < growlAt + 1.1 ? Math.min(1, (q - growlAt) / .25) * (1 - Math.max(0, (q - growlAt - .75) / .35)) : .06,
-      look: -.5 * settled,                                         // eyes toward her
+      look: -.85,                                         // eyes toward her
       shut: blinking(q, [2.7, 6.4, 11.2]),
     }, f);
 
-    aster.pose({ x: 430 + .92 * (far - w.d), y: 800, s: 1, look: .72,
+    aster.pose({ x: 700 + .92 * (far - w.d), y: 818, s: 1.02, look: .92,
       mouth: 'X',                                     // every line in this scene is narration or voice-over
       brow: q >= growlAt ? -.55 : .15,
       lean: q >= t8 ? -3 : (q >= growlAt ? -1.5 : 0),
