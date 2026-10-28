@@ -135,7 +135,7 @@ jobs:
         run: |
           mkdir -p "books/$BOOK/review/probe"
           PYTHONPATH=skill/scripts python3 tools/probe.py "${{ inputs.probe_path }}" \
-            --out "books/$BOOK/review/probe/$(basename '${{ inputs.probe_path }}' .html).png"
+            --out "books/$BOOK/review/probe/probe.png"
 
       - name: Task — shot (review screenshots + contact sheets)
         if: inputs.task == 'shot'
