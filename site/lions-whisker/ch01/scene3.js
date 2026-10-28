@@ -1,5 +1,8 @@
-/* ትእይንት ሶስት — ጫካው። በየቀኑ ስጋ ታመጣለች፤ አንበሳው ይታመናል፤ ጢሶቹን ትወስዳለች፤ የኤመቤት ቃል በላዩ ይመጣል።
-   The lion is never shown: a growl, a shake of the leaves, two amber lamps in the dark.
+/* ትእይንት ሶስት — ጫካው። በየቀኑ ስጋ ታመጣለች፤ አንበሳው ይታመናል፤ ጢሶቹን ትወስዳለች።
+   Scene three — the bush. She brings meat every day; the lion comes to trust her; she takes the whiskers.
+
+   The lion IS shown now (lion.js). It starts far right, in profile facing her, low and wary; the growl
+   lifts its head and opens its jaw; by s08 the jaw is shut, the head is down and it lets her reach in.
    s07 narrator "በየቀኑ ስጋ…" · s08 narrator "ከሳምንታት በኋላ… ወሰደች" · s09 Emebet "አንበሳን በትዕግስት…" */
 'use strict';
 const PRE3 = 1.2;
@@ -8,19 +11,21 @@ function scene3(p, D) {
   const cam = paperCam(p, 'bush');
   const aster = asterPuppet(cam.stage, { coat: '#b8563f', stripe: '#f0d9a8', pants: '#7a3a2c', skin: '#e8bb92',
     holds: { basket: BASKET } });
+  const lion = lionPuppet(cam.stage, {});
 
   const t7 = clipAt('scene3', PRE3, 's07');   // the daily meat
   const t8 = clipAt('scene3', PRE3, 's08');   // after months: the whiskers
   const t9 = clipAt('scene3', PRE3, 's09');   // Emebet's voice over the ending
-  const eyesAt = t7 + .5;
+  const growlAt = t7 + .5;
+  const trustAt = t8 - 1.2;                   // it settles before she reaches
 
   sfx('scene3', .2, 'crickets', .42);
   sfx('scene3', .4, 'wind', .5);
-  sfx('scene3', eyesAt, 'growl', .85);
-  cam.shake(eyesAt, .7, 8);
+  sfx('scene3', growlAt, 'growl', .85);
+  cam.shake(growlAt, .7, 8);
 
   // wide while she walks in, then a slow push to her hand as the whiskers come away
-  cam.cut({ x: 800, y: 470, z: .98 }, 0).to({ x: 760, y: 560, z: 1.28 }, Math.max(.5, t8 - 1.4), 4.5);
+  cam.cut({ x: 800, y: 470, z: .98 }, 0).to({ x: 800, y: 545, z: 1.24 }, Math.max(.5, t8 - 1.4), 4.5);
 
   const STEP = 2 / 3, walkEnd = t7 + .5, steps = Math.max(0, Math.floor((walkEnd - .4) / STEP)), far = spStep(steps * STEP).d;
 
@@ -28,13 +33,26 @@ function scene3(p, D) {
     const w = spStep(Math.min(Math.floor(q * 6) / 6, steps * STEP));
     const moving = q < steps * STEP;
     cam.apply(q, f);
-    cam.show('eyes', q >= eyesAt);
+
+    // the lion: wary and low, then it lifts its head on the growl and settles once she is trusted
+    const breathe = Math.sin(q * 1.9) * 2.2;                       // it is alive even when nothing happens
+    const settled = span(q, trustAt, trustAt + 1.6);             // 0 wary → 1 settled
+    lion.pose({
+      x: 1235 - 55 * settled,                                      // it comes a little closer as trust grows
+      y: 812, s: 1.02, face: -1,                                   // in profile, facing her
+      bob: breathe, sway: Math.sin(q * .7) * .8,
+      tilt: q >= growlAt ? -8 + 10 * settled : 6 - 4 * settled,    // head down, up on the growl, down again
+      jaw: q >= growlAt && q < growlAt + 1.1 ? Math.min(1, (q - growlAt) / .25) * (1 - Math.max(0, (q - growlAt - .75) / .35)) : .06,
+      look: -.5 * settled,                                         // eyes toward her
+      shut: blinking(q, [2.7, 6.4, 11.2]),
+    }, f);
+
     aster.pose({ x: 430 + .92 * (far - w.d), y: 800, s: 1, look: .72,
       mouth: 'X',                                     // every line in this scene is narration or voice-over
-      brow: q >= eyesAt ? -.55 : .15,
-      lean: q >= t8 ? -3 : (q >= eyesAt ? -1.5 : 0),
+      brow: q >= growlAt ? -.55 : .15,
+      lean: q >= t8 ? -3 : (q >= growlAt ? -1.5 : 0),
       legL: moving ? w.legL : 0, legR: moving ? w.legR : 0, bob: moving ? w.drop : 0,
-      armL: q >= t8 ? 30 : (q >= eyesAt ? 12 : 0),    // reaching into the dark for three whiskers
+      armL: q >= t8 ? 30 : (q >= growlAt ? 12 : 0),    // reaching in for the three whiskers
       shut: blinking(q, [3.6, 9.1]) }, f);
   });
 }
