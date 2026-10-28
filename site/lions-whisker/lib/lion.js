@@ -62,6 +62,8 @@ function lionPuppet(parent, {
     <g data-p="pupil"><ellipse cx="39" cy="-50" rx="5.4" ry="7.4" fill="${eye}"/><ellipse cx="40.4" cy="-50" rx="2.2" ry="3.4" fill="${ink}"/></g>
     <g data-p="lid"><rect x="21" y="-66" width="30" height="18" fill="${coat}"/>
       <path d="M22,-50 q14,7 28,0" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" fill="none"/></g>
+    <g data-p="fangs"><g filter="url(#paper)">
+      <path d="M56,-4 l3,11 l4,-10 z" fill="#fff8e6"/><path d="M72,-6 l3,12 l4,-11 z" fill="#fff8e6"/></g></g>
     <g data-p="whisk"><g filter="url(#paper)">
       <path d="M78,-16 l34,-10 M80,-9 l36,0 M76,-24 l30,-18" stroke="#f7efdc" stroke-width="1.5" fill="none" opacity=".8"/></g></g>
   </g>`;
@@ -72,7 +74,7 @@ function lionPuppet(parent, {
       <path d="M4,4 q26,20 60,12 q12,-3 10,7 q-2,11 -18,12 q-44,5 -62,-12 z" fill="${coat}"/>
       <path d="M8,8 q28,18 56,11 q8,5 -3,9 q-34,7 -55,-9 z" fill="#8c2f2a" opacity=".85"/>
       <path d="M18,10 q30,16 62,10" stroke="${ink}" stroke-width="2" fill="none" opacity=".3"/>
-      <g data-p="teeth">${[44, 56, 68].map((x, i) => `<path d="M${x},${10 - i * .6} l2.4,5.6 l3,-5 z" fill="#fff8e6"/>`).join('')}</g>
+
     </g></g>`;
 
   /* ---- legs: thick, with a bend; near pair darker than far pair ---- */
@@ -130,7 +132,7 @@ function lionPuppet(parent, {
       tf(P.headWrap, `translate(${96 + o.look * 9},${-186}) rotate(${o.tilt},-30,10)`);
       tf(P.jaw, `translate(0,${(o.jaw * 3).toFixed(1)}) rotate(${(o.jaw * 17).toFixed(1)},4,4)`);
       vis(P.lid, o.shut);
-      vis(P.teeth, o.jaw > .12);
+      vis(P.fangs, o.jaw > .12);
       tf(P.pupil, `translate(${o.look * 3.4},${o.shut ? 1 : 0})`);
       tf(P.tailWrap, `rotate(${(o.sway * 7).toFixed(1)},-118,-142)`);
       tf(P.tuft, `rotate(${(o.sway * 16).toFixed(1)},-162,-206)`);
